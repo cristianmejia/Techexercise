@@ -1,0 +1,20 @@
+.container
+	%p#notice=notice
+	%h1 Events of the day
+	#canvascontainer
+		%table.pull-left#left-column-table
+			- (1..25).each do |i|
+				%tr
+					- if i.odd?
+						%td.odd
+							%strong=@ti.strftime("%I:%M")
+							=@ti.strftime("%p")
+					- else
+						%td
+							.text-right.small-text=@ti.strftime("%I:%M")
+					- @ti = @ti + 30.minute
+		#eventscontainer.pull-right
+			- @events.each do |e|
+				.single-event{:style => "margin-top:#{e.start}px;height:#{e.end-e.start}px", :class => "#{'colliding' if e.colliding}"}
+					%strong.blue=e.title.presence || "Sample Item"
+					.location=e.location.presence || "Sample Location"
